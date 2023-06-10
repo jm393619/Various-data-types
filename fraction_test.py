@@ -161,15 +161,15 @@ class TestThree(unittest.TestCase):
 class TestFour(unittest.TestCase):
 
     def setUp(self):
-        self.f1 = Fraction(-1, 2)
-        self.f2 = Fraction(2, 3)
+        self.f1 = Fraction(-3, 2)
+        self.f2 = Fraction(5, 3)
         self.f3 = Fraction(3, -4)
         self.f4 = Fraction(0, 1)
 
     def test_abs(self):
         cases = [
-            (self.f1, Fraction(1, 2)),
-            (self.f2, Fraction(2, 3)),
+            (self.f1, Fraction(3, 2)),
+            (self.f2, Fraction(5, 3)),
             (self.f3, Fraction(3, 4))
         ]
 
@@ -183,8 +183,8 @@ class TestFour(unittest.TestCase):
 
     def test_neg(self):
         cases = [
-            (self.f1, Fraction(1, 2)),
-            (self.f2, Fraction(-2, 3)),
+            (self.f1, Fraction(3, 2)),
+            (self.f2, Fraction(-5, 3)),
             (self.f3, Fraction(3, 4))
         ]
 
@@ -195,3 +195,53 @@ class TestFour(unittest.TestCase):
     def test_bool(self):
         self.assertTrue(self.f1)
         self.assertFalse(self.f4)
+
+    def test_int(self):
+
+        cases = [
+            (self.f1, -1),
+            (self.f2, 1),
+            (self.f3, 0),
+            (self.f4, 0)
+        ]
+
+        for x, result in cases:
+            with self.subTest(cases=cases):
+                self.assertEqual(int(x), result)
+
+    def test_float(self):
+
+        cases = [
+            (self.f1, -1.5),
+            (self.f2, 1.666667),
+            (self.f3, -0.75),
+            (self.f4, 0.0)
+        ]
+
+        for x, result in cases:
+            with self.subTest(cases=cases):
+                self.assertAlmostEqual(float(x), result)
+
+    def test_gt(self):
+        cases = [
+            (self.f2, self.f1),
+            (self.f2, self.f3),
+            (self.f4, self.f3),
+            (self.f2, self.f4)
+        ]
+
+        for x, y in cases:
+            with self.subTest(cases=cases):
+                self.assertGreater(x, y)
+
+    def test_floordiv(self):
+        cases = [
+            (self.f2, self.f1),
+            (self.f2, self.f3),
+            (self.f4, self.f3),
+            (self.f2, self.f4)
+        ]
+
+        for x, y in cases:
+            with self.subTest(cases=cases):
+                self.assertGreater(x, y)

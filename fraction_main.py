@@ -9,6 +9,14 @@ class Fraction:
         if denominator == 0:
             raise ValueError("Denominator can't be equal to zero.")
 
+        a, b = abs(numerator), abs(denominator)
+
+        _gcd = self.gcd(a, b)
+
+        if _gcd != 1:
+            numerator //= _gcd
+            denominator //= _gcd
+
         self.numerator = numerator if denominator > 0 else -numerator
         self.denominator = abs(denominator)
 
@@ -40,9 +48,6 @@ class Fraction:
 
         num = self.numerator * other.denominator + self.denominator * other.numerator
         den = self.denominator * other.denominator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         return Fraction(num, den)
 
@@ -50,9 +55,6 @@ class Fraction:
 
         num = self.numerator * other.denominator - self.denominator * other.numerator
         den = self.denominator * other.denominator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         return Fraction(num, den)
 
@@ -60,9 +62,6 @@ class Fraction:
 
         num = self.numerator * other.numerator
         den = self.denominator * other.denominator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         return Fraction(num, den)
 
@@ -70,9 +69,6 @@ class Fraction:
 
         num = self.numerator * other.denominator
         den = self.denominator * other.numerator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         return Fraction(num, den)
 
@@ -80,9 +76,6 @@ class Fraction:
 
         num = abs(self.numerator)
         den = self.denominator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         return Fraction(num, den)
 
@@ -90,9 +83,6 @@ class Fraction:
 
         num = - self.numerator
         den = self.denominator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         return Fraction(num, den)
 
@@ -103,9 +93,6 @@ class Fraction:
 
         num = self.numerator * other.denominator + self.denominator * other.numerator
         den = self.denominator * other.denominator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         self.numerator = num
         self.denominator = den
@@ -116,9 +103,6 @@ class Fraction:
 
         num = self.numerator * other.denominator - self.denominator * other.numerator
         den = self.denominator * other.denominator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         self.numerator = num
         self.denominator = den
@@ -129,9 +113,6 @@ class Fraction:
 
         num = self.numerator * other.numerator
         den = self.denominator * other.denominator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         self.numerator = num
         self.denominator = den
@@ -142,14 +123,33 @@ class Fraction:
 
         num = self.numerator * other.denominator
         den = self.denominator * other.numerator
-        _gcd = self.gcd(num, den)
-        num //= _gcd
-        den //= _gcd
 
         self.numerator = num
         self.denominator = den
 
         return self
 
+    def __int__(self):
+
+        if self.numerator < 0:
+            return -(-self.numerator // self.denominator)
+        else:
+            return self.numerator // self.denominator
+
+    def __float__(self):
+
+        return round(self.numerator / self.denominator, 6)
+
+    def __gt__(self, other):
+
+        return self.numerator * other.denominator > other.numerator * self.denominator
+
+    def __ge__(self, other):
+
+        return self.numerator * other.denominator >= other.numerator * self.denominator
+
+    def __floordiv__(self, other):
+
+        return self.numerator * other.denominator // other.numerator * self.denominator
 
 
